@@ -34,6 +34,15 @@ RUN echo "files = /config/supervisor/*.conf" >> /etc/supervisord.conf
 
 RUN sed -i -e "s/;\[include\]/\[include\]/g" /etc/supervisord.conf
 
+RUN echo  "opcache.revalidate_freq=60" >> /etc/php/5.6/cli/conf.d/10-opcache.ini
+
+RUN sed -i -e "s/pm.max_children = 5/pm.max_children = 50/g" /etc/php/5.6/fpm/pool.d/www.conf
+
+RUN sed -i -e "s/pm.start_servers = 2/pm.start_servers = 30/g" /etc/php/5.6/fpm/pool.d/www.conf
+
+RUN sed -i -e "s/pm.min_spare_servers = 1/pm.min_spare_servers = 10/g" /etc/php/5.6/fpm/pool.d/www.conf
+
+RUN sed -i -e "s/pm.max_spare_servers = 3/pm.max_spare_servers = 50/g" /etc/php/5.6/fpm/pool.d/www.conf
 
 RUN mkdir /run/php/
 
